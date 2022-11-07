@@ -101,6 +101,7 @@ namespace hw2test
 						auto* original = p1.name;
 
 						Assert::IsTrue(original != copy);
+						Assert::IsTrue(strcmp(original, copy) == 0);
 				}
 
 				TEST_METHOD(when_calling_player_cards_greater_than_the_correct_cards_are_returned) {
