@@ -52,6 +52,8 @@ private:
 			return "reserved";
 		case SeatAvailability::PAID:
 			return "paid";
+		default:
+				return "unkown";
 		}
 	}
 
@@ -101,6 +103,8 @@ public:
 		for (int i = 0; i < numberOfSeats; ++i) {
 			this->seats[i] = new Seat(*room.seats[i]);
 		}
+
+		return *this;
 	}
 
 	~Room() {
@@ -167,6 +171,8 @@ public:
 		this->startTime = deepCopy(anotherEvent.startTime);
 
 		this->room = anotherEvent.room;
+
+		return *this;
 	}
 
 	void print() {
@@ -217,6 +223,8 @@ public:
 		for (int i = 0; i < runningEvents; ++i) {
 			this->events[i] = anotherCinema.events[i];
 		}
+
+		return *this;
 	}
 
 	~Cinema() {
