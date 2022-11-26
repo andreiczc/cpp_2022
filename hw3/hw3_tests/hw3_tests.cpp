@@ -103,6 +103,14 @@ namespace hw3tests
 			Assert::IsTrue(actualPackages[0] == packageWeight);
 		}
 
+		TEST_METHOD(when_calling_get_total_load_the_load_is_computed_correctly) {
+			const auto packageWeight = 1;
+			std::unique_ptr<BaseDeliveryVan> van(new DeliveryVan());
+			van->addPackage(packageWeight);
+
+			Assert::IsTrue(van->getTotalLoad() == 1);
+		}
+
 		TEST_METHOD(when_calling_add_package_and_max_load_is_reached_an_exception_is_thrown) {
 			const auto packageWeight = 1;
 			std::unique_ptr<BaseDeliveryVan> van(new DeliveryVan());
