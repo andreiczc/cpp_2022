@@ -89,6 +89,68 @@ public:
 				return copy;
 		}
 
+		Cinema& operator++() {
+			int* newArr = new int[this->noRooms + 1];
+			memcpy(newArr, this->rooms, this->noRooms * sizeof(int));
+			newArr[this->noRooms] = 0;
+
+			++this->noRooms;
+			delete[] this->rooms;
+			this->rooms = newArr;
+
+			return *this;
+		}
+
+		Cinema operator+(const Cinema& other) {
+			// add the ids, concatenate the name, use the min amount of rooms and add up the capacity
+			Cinema result("");
+
+			result.id = this->id + other.id;
+			
+			delete[] result.name;
+			char* buffer = new char[strlen(this->name) + strlen(other.name) + 2];
+			strcpy(buffer, this->name);
+			strcat(buffer, " ");
+			strcat(buffer, other.name);
+			result.name = buffer;
+
+			result.noRooms = this->noRooms < other.noRooms ? this->noRooms : other.noRooms;
+
+			delete[] result.rooms;
+			result.rooms = new int[result.noRooms];
+			for (int i = 0; i < result.noRooms; ++i) {
+				result.rooms[i] = this->rooms[i] + other.rooms[i];
+			}
+
+			return result;
+		}
+
+		bool operator==(const Cinema& other) {
+			if (this == &other) {
+				return true;
+			}
+
+			if (strcmp(this->name, other.name) != 0) {
+				return false;
+			}
+
+			if (this->noRooms != other.noRooms) {
+				return false;
+			}
+
+			for (int i = 0; i < this->noRooms; ++i) {
+				if (this->rooms[i] != other.rooms[i]) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		bool operator!=(const Cinema& other) {
+			return !(*this == other);
+		}
+
 private:
 		static char* deepCopyString(const char* original) {
 				char* result = new char[strlen(original) + 1];
@@ -182,6 +244,15 @@ int main() {
 		Cinema old = cinema4++;
 		cout << old;
 		cout << cinema4;
+
+		Cinema cinema5 = cinema4 + old;
+		cout << cinema5;
+
+		Cinema cinema6 = cinema5;
+		cout << (cinema5 == cinema5 ? "The instances are equal" : "The instances are NOT equal") << endl;
+
+		++cinema6;
+		cout << cinema6;
 
 		return 0;
 }
